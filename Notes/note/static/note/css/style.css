@@ -1,0 +1,446 @@
+body {
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+header {
+    background-color: #f5f6f7;
+    border: 1px solid #d9dadb;
+    height: 4vh;
+    width: auto;
+}
+
+.name_of_site {
+    font-size: 23px;
+    padding-left: 50px;
+    padding-top: 10px;
+    user-select: none;
+}
+
+#logout_of_account {
+    font-size: 20px;
+    color: #48a2ab;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    margin-right: 10px;
+    user-select: none;
+    text-decoration: none;
+    border: 0;
+    background-color: #f5f6f7;
+    cursor: pointer;
+    
+}
+
+#logout_of_account:hover {
+    color: #973737
+}
+
+aside {
+    background-color: #f5f6f7;
+    border: 1px solid #d9dadb;
+    border-top: 0;
+    border-left: 0;
+    width: 250px;
+    position: relative;
+}
+
+.spacer {
+    margin-top: 150px;
+}
+
+#folders {
+    height: 100vh;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.folder {
+    font-size: 15px;
+    background-color: #f5f6f7;
+    padding-left: 10px;
+    padding-right: 100px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-left: 10px;  
+    margin-right: 10px;
+    transform: translateY(15px);
+    border-radius: 8px;
+    outline: none;
+    align-items: center;
+    user-select: none;
+    display: none;
+}
+
+.folder_text {
+    flex: 1;
+    white-space: nowrap;
+}
+
+.folder_img {
+    width: 20px;    
+    height: auto;
+    margin-right: 10px;
+}
+
+.arrow_img {
+    width: 6px;    
+    height: auto;
+    padding: 4px 6px 3px 6px;
+    visibility: hidden;
+}
+
+.new_name_folder {
+    font-family: "Rubik", sans-serif;
+    font-size: 14px;
+    position: absolute;
+    border-radius: 8px;
+    border: 3px solid #3F888F;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    left: 55px;
+    width: 140px;
+    padding-left: 10px;
+    visibility: hidden;
+}
+
+.new_name_folder:focus {
+    outline: none;
+}
+
+#add_folder {
+    background-color: #48a2ab;
+    color: white;
+    font-weight: 500;
+    width: 220px;
+    padding: 6px 0px;
+    text-align: center;
+    cursor: pointer;
+    position:absolute;
+    top: 92.4vh;
+    left: 15px;
+    border-radius: 8px;
+    user-select: none;
+}
+
+#line_under_adding_folder {
+    background-color: #f5f6f7; 
+    position: absolute;
+    border: 0;
+    top: 94.8vh;
+    width: 240px;
+    height: 2px;
+}
+
+.img_edit_menu {
+    position: absolute;
+    right: 10px;
+    width: 16px;
+    height: auto;
+    visibility: hidden;
+}
+
+#edit_menu {
+    position: absolute;
+    left: 207px;
+    background-color: white;
+    height: 100px;
+    width: 230px;
+    border-radius: 12px;
+    border: 1px solid #d9dadb;
+    user-select: none;
+    visibility: hidden;
+}
+
+.button_edit_menu {
+    font-size: 15px;
+    background-color: white;
+    border-radius: 8px;
+    display: block;
+    transform: translateY(5px);
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 37px;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+#line_edit_menu {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-left: 15px;
+    margin-right: 15px;
+}   
+
+#notes_menu {
+    font-size: 18px;
+    background-color: white;
+    border: 1px solid #d9dadb;
+    border-top: 0;
+    border-left: 0;
+    width: 300px;
+    height: 100vh;
+    position: absolute;
+    top: 0px;
+    left: 251px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+#search { 
+    font-family: "Rubik", sans-serif;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #d9dadb;
+    width: 280px;
+    height: 33px;
+    margin-right: 10px;
+    margin-left: 10px;
+    padding-left: 22px;
+    transform: translateY(15px);
+    text-indent: 5px;
+    border-radius: 8px;
+    border: 3px solid transparent;
+    outline: none;  
+    user-select: none;
+    white-space: nowrap; 
+}
+
+.description_note {
+    font-size: 18px;
+    padding-left: 30px;
+    padding-right: 100px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    margin-left: 10px;
+    margin-right: 10px;
+    transform: translateY(30px);
+    border-radius: 8px;
+    outline: none;
+    align-items: center;
+    user-select: none;
+    white-space: nowrap; 
+    overflow: hidden;
+    display: none;
+}
+
+.description_note.active {
+    display: block;
+}
+
+#text_about_deleted_notes{
+    font-size: 14px;
+    color: #666768;
+    margin: 5px 0px;
+    position: relative;
+    top: 20px;
+    left: 20px;
+    display: none;
+}
+
+.name_note {
+    font-weight: 500;
+}
+
+.date_note {
+    font-size: 15px;
+}
+
+.text_note {
+    font-size: 14px;
+    color: #88898a;
+}
+
+#no_notes {
+    font-size: 14px;
+    color: #666768;
+    position: absolute;
+    right: 105px;
+    top: 100px;
+    display: none;
+}
+
+#img_deleted_notes {
+    width: 20px;    
+    height: auto;
+    margin-right: 10px;
+}
+
+#deleted_notes {
+    font-size: 15px;
+    background-color: #f5f6f7;
+    padding-left: 30px;
+    padding-right: 100px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-left: 10px;  
+    margin-right: 10px;
+    transform: translateY(15px);
+    border-radius: 8px;
+    outline: none;
+    align-items: center;
+    user-select: none;
+    white-space: nowrap;
+    display: none;
+}
+
+#deleted_notes.active{
+    display: flex;
+}
+
+#container {
+    max-width: 71%;
+}
+
+#add_note {
+    background-color: #48a2ab;
+    color: white;
+    font-weight: 500;
+    width: 272px;
+    padding: 6px 0px;
+    text-align: center;
+    cursor: pointer;
+    position:absolute;
+    top: 92.4vh;
+    left: 265px;
+    border-radius: 8px;
+    user-select: none;
+}
+
+#line_under_adding_note {
+    background-color: #f5f6f7; 
+    position: absolute;
+    border: 0;
+    top: 94.8vh;
+    left: 250px;
+    width: 290px;
+    height: 2px;
+}
+
+.head {
+    border-top: 0;
+    border-left: 0;
+    width: 100%;
+    height: 0.5vh;
+    position: relative;
+    bottom: 916px;
+    left: 552px; 
+    text-align: right; 
+}
+
+#restore_note {
+    color: #3F888F;
+    background-color: white;
+    border-radius: 6px;
+    padding: 2px;
+    font-size: 18px;
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    left: 30px;
+    cursor: pointer;
+    display: none;
+    user-select: none;
+}
+
+.img_edit {
+    width: 20px;
+    height: auto;
+    background-color: white;
+    border-radius: 8px;
+    padding: 5px;
+    position: absolute;
+    bottom: 10px;
+    cursor: pointer;
+}
+
+#trash_img {
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+}
+
+.main_window {
+    width: 100%;
+    height: 94.6vh;
+    position: relative;
+    border: 1px solid #d9dadb;
+    bottom: 917px;
+    left: 551px;
+    border: 0;
+    display: none;
+}
+
+.main_window.active {
+    display: block;
+}
+
+.text_input {   
+    font-family: "Rubik", sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    height: 76vh;
+    margin-left: 30px;
+    width: 97.7%;
+    resize: none;
+    overflow-y: auto;
+    outline: none;
+    line-height: 23px;
+    word-spacing: 1px;
+    border: 0;
+}
+
+.text_title {
+    font-family: "Rubik", sans-serif;
+    font-weight: 500;
+    font-size: 27px;
+    min-height: 4vh;
+    max-height: 10vh;
+    padding-top: 30px;
+    margin-left: 30px;
+    width: 97.7%;
+    resize: none;
+    overflow: hidden;
+    outline: none; 
+    line-height: 23px;
+    word-spacing: 1px;
+    line-height: 1.16;
+    border: 0;
+}
+
+::selection {
+    background-color: rgb(168 208 212);
+    color: black; 
+    line-height: 0; 
+    font-size: 0.8em;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+:-webkit-scrollbar-track {
+    background-color: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: white;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+#folders::-webkit-scrollbar-track{
+    background-color: #f5f6f7;
+}
+
+#folders::-webkit-scrollbar-thumb{
+    background-color: #f5f6f7;
+}
+
+#folders:hover::-webkit-scrollbar-thumb, #notes_menu:hover::-webkit-scrollbar-thumb, .text_input:hover::-webkit-scrollbar-thumb{
+    background-color: #A9A9A9;
+}

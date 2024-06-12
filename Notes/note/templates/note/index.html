@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zentrNotes</title>
+    <link rel="icon" href="{% static 'note/img/favicon.ico' %}" type="image/x-icon">
+    <link type="text/css" href="{% static 'note/css/style.css' %}" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="name_of_site">
+            zentrNotes
+        </div>
+        <form id="logout" method="post" action="/users/logout/">
+            {% csrf_token %}
+            <button type="submit" id="logout_of_account" title="Выйти из аккаунта">Выйти</button>
+        </form>
+    </header>
+
+    <aside>
+        <div id="folders">
+            {% for folder in folders %}
+                {% if folder.main_folder == True %}
+                    <div class="folder" name="main_folder" id="{{ folder.id }}" data-folder-name="folder{{ folder.id }}" style="padding-left: 28px;">
+                        <img class="folder_img" src="{% static 'note/img/folder.png' %}" >
+                        <span class="folder_text">Заметки</span> 
+                    </div>
+                {% else %}
+                    <div class="folder" name="{{ folder.title }}" id="{{ folder.id }}" data-folder-name="folder{{ folder.id }}" data-parent-folder="{{ folder.parent_folder}}" data-there-subfolders="{{ folder.there_subfolders }}" data-subfolder-level="{{ folder.subfolder_level }}">
+                        <input class="new_name_folder" type="text" value="{{ folder.title }}" maxlength="100" spellcheck="false">
+                        <img class="arrow_img" data-side='right' src="{% static 'note/img/arrow_right.png' %}">
+                        <img class="folder_img" src="{% static 'note/img/folder.png' %}">
+                        <span class="folder_text">{{ folder.title }}</span>
+                        <img class="img_edit_menu" src="{% static 'note/img/3points/blue.png' %}">
+                    </div>
+                {% endif %} 
+            {% endfor %}
+            <div id="deleted_notes" style="padding-left: 28px;">
+                <img id="img_deleted_notes" src="{% static "note/img/trash.png" %}">
+                <span id="text_deleted_note">Недавно удаленные</span>
+            </div>
+            <div class="spacer"></div>
+        </div>
+        <div id="add_folder" title="Создать папку">Новая папка</div>
+        <hr id="line_under_adding_folder">
+        <div id="notes_menu">
+            <input id="search" type="text" spellcheck="false" placeholder="Поиск заметок...">
+            <span id="text_about_deleted_notes">Заметки будут полностью удалены <br> без возможности восстановления <br> через 1 день.</span>
+            <span id="no_notes">Нет заметок</span>
+            <div id='notes'>
+                {% for note in notes %}
+                    <div class="description_note" data-folder-id="{{ note.folder_id }}" id="{{ note.pk }}" name="note{{ note.pk }}" {% if note.is_deleted == True%} data-is-deleted="True" {%endif%}>
+                        <span class="name_note">{{ note.title }}</span>
+                        <br><span class="date_note">
+                        {% if note.time_update|date:"d.m.y"|length == 0 %}
+                            {{ note.time_update }}</span>
+                        {% else %}
+                            {{ note.time_update|date:"d.m.y" }}</span>
+                        {% endif %}
+                        <span class="text_note">{{ note.content }}</span>
+                    </div>
+                {% endfor %}
+                <div class="spacer"></div>
+            </div>
+        </div>
+        <div id="add_note" title="Создать заметку">Новая заметка</div>
+        <hr id="line_under_adding_note">
+        <div id="edit_menu">
+            <span class="button_edit_menu" id="rename_folder">Переименовать</span>
+            <span class="button_edit_menu" id="add_subfolder">Новая папка</span>
+            <hr id="line_edit_menu">
+            <span class="button_edit_menu" id="delete_folder">Удалить папку</span>
+        </div>
+    </aside>
+
+    <main>
+        <div id="container">
+            <div class="head">
+                <span id="restore_note" title="Восстановить заметку">Восстановить</span>
+                <img class="img_edit" id="trash_img" title="Удалить заметку" src="{% static "note/img/trash.png" %}">
+            </div>
+            <div id="textareas">
+                {% for note in notes %}
+                    <div class="main_window" data-note-id="{{ note.pk }}">
+                        <textarea class="text_title" id="title{{ note.pk }}" name="title{{ note.title }}" spellcheck="false" maxlength="150" placeholder="Заголовок">{{ note.title }}</textarea>
+                        <textarea class="text_input" id="text{{ note.pk }}" name="text{{ note.title }}" spellcheck="false" placeholder="Текст">{{ note.content }}</textarea>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+    <script src="{% static 'note/js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+body {
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container {
+    width: 350px;
+    height: 400px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 -6px 5px rgba(0, 0, 0, 0.1), 
+                0 6px 5px rgba(0, 0, 0, 0.1), 
+                6px 0 5px rgba(0, 0, 0, 0.1),
+                -6px 0 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+#container.done {
+    width: 250px;
+    height: 200px;
+    text-align: center;
+}
+
+.form_input {
+    border: 1px solid #3F888F;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 6px;
+    width: 87%;
+    height: 30px;
+    display: block;
+    margin: 0 auto; 
+    margin-bottom: 10px;
+    position: relative;
+    top: 230px;
+    outline: none;
+}
+
+.form_input.reg {
+    top: 20px;
+}
+
+.form_input:focus {
+    border: 3px solid #3F888F;
+}
+
+label {
+    font-size: 14px;
+    position: relative;
+    top: 20px;
+    left: 27px;
+    user-select: none;
+}
+
+.send_data {
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: #3F888F;
+    color: white;
+    width: 55%;
+    height: 35px; 
+    display: block;
+    margin: 250px auto 10px;
+    cursor: pointer;
+    user-select: none;
+    position: absolute;
+    bottom: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.send_data:hover {
+    background-color: #48a2ab;
+}
+
+.errorlist {
+    color: rgb(235, 92, 92);
+    list-style-type: none;
+    font-size: 15px;
+    position: relative;
+    margin: 0;
+    left: -13px;
+    top: 10px;
+    width: 300px;
+}
+
+.errorlist.nonfield {
+    position: absolute;
+    top: 190px;
+}
+
+#register {
+    color: #7c7878;
+    font-size: 13px;
+    display: inline;
+    position: absolute;
+    top: 90%;
+    left: 17%;
+}
+
+#register_button {
+    color: #3F888F;
+    text-decoration: none;
+}
+
+#register_button:hover {
+    color: #4bb6c1;
+}
+
+#message_done_register {
+    font-size: 20px;
+    position: relative;
+    top: 50px;
+}
+
+#button_login {
+    color: white;
+    font-size: 20px;
+    position: relative;
+    top: 50px;
+    padding: 7px;
+    border-radius: 6px;
+    background-color: #3F888F;
+    text-decoration: none;
+    user-select: none;
+}
+
+#button_login:hover {
+    background-color: #48a2ab;
+}
+
+::selection {
+    background-color: rgb(168 208 212);
+    color: black; 
+    line-height: 0; 
+    font-size: 0.8em;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}

@@ -1,0 +1,19 @@
+{% extends 'login/base_login.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+<div id='container'>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+        {% for f in form %}
+            {{ f }}
+            {{ f.errors }}
+        {% endfor %}
+        <button type="submit" class="send_data">Отправить</button>
+    </form>
+    <p id="register">Ещё нет аккаунта?<a href="/users/registration/" id="register_button"> Создать аккаунт</a></p>
+</div>
+{% endblock %}
