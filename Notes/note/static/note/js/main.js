@@ -719,6 +719,7 @@ function maxLength(class_name) {
             "folder_text": 15,
             "name_note": 20,
             "text_note": 22,
+            
         }
         let maxLength = length[class_name];
         if (text.length > maxLength) {
