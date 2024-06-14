@@ -279,23 +279,26 @@ def delete_folder(request, folder_id=None):
                 notes.update(folder_id=main_folder.id) 
                 notes.update(is_deleted=True)
             folder = Folders.objects.get(pk=id_folder)
-            # subfolders = Folders.objects.filter(parent_folder=folder.id).exists()
-            # if subfolders:
-            #     delete_subfolders(request, folder.id)
             folder.delete()
 
-            return HttpResponse("Folder is deleted")
-        
+            return HttpResponse("Folder is deleted") 
         return HttpResponseBadRequest('The request body cannot be empty')
-    
     return HttpResponseNotAllowed(['POST'])
 
     
-def delete_subfolders(request, folder_id):
-    subfolders = Folders.objects.filter(parent_folder=folder_id)
-    for subfolder in subfolders:
-        delete_folder(request, subfolder.id)
+def delete_all_subfolders(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        if data.get('id_folder'):
+            
+            id_folder = data.get('id_folder')
+            folder = Folders.objects.get(pk=id_folder)
+            folder.there_subfolders = False
+            folder.save()
 
+            return HttpResponse()
+        return HttpResponseBadRequest('The request body cannot be empty')
+    return HttpResponseNotAllowed(['POST'])
 
 def get_note(request):
     if request.method == 'POST':

@@ -15,6 +15,7 @@ urlpatterns = [
     path('get_notes_folder/', views.get_notes_folder, name="get_notes_folder"),
     path('get_note/', views.get_note, name="get_note"),
     path('delete_folder/', views.delete_folder, name="delete_notes"),
+    path('delete_all_subfolders/', views.delete_all_subfolders, name="delete_all_subfolders"),
     path('delete_note/', views.delete_note, name="delete_note"),
     path('restore_note/', views.restore_note, name="restore_note"),
     path('<slug:folder_slug>/', views.folder_detail, name='folder'),

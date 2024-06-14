@@ -593,12 +593,20 @@ function search_notes() {
 
 // Функция для нажатия на меню редактирования папки
 function img_edit_menu_click(el) {
-    id_folder = el.parentElement.id
+    const folder = el.parentElement
+    id_folder = folder.id
     const rect = el.getBoundingClientRect();
     const y = rect.top; 
     edit_menu.style.top = y - 16 + "px"
     edit_menu.style.visibility = "visible";
     edit_menu.setAttribute("data-clicked", "true");
+    add_subfolder.style.display = 'block'
+    edit_menu.style.height = '100px'
+
+    if(folder.getAttribute('data-subfolder-level') == '3'){
+        add_subfolder.style.display = 'none'
+        edit_menu.style.height = '75px'
+    }
 }
 
 // Функция для обработки наводки на меню редактирования папки
@@ -719,7 +727,6 @@ function maxLength(class_name) {
             "folder_text": 15,
             "name_note": 20,
             "text_note": 22,
-            
         }
         let maxLength = length[class_name];
         if (text.length > maxLength) {
@@ -779,6 +786,7 @@ function displays_folders() {
     Array.from(folders).forEach(folder => {
         folder.style.display = "flex";
         if(folder.getAttribute('name') != 'main_folder') {
+            const img_arrow = folder.querySelector('.arrow_img')
 
             const subfolder_level = folder.getAttribute('data-subfolder-level')
             const rename_folder = folder.querySelector('.new_name_folder')
@@ -807,16 +815,29 @@ function displays_folders() {
             }
 
             if(folder.getAttribute("data-there-subfolders") === 'True') {   
-                const img_arrow = folder.querySelector('.arrow_img')
                 img_arrow.style.visibility = "visible";
             }
 
             else{
-                const img_arrow = folder.querySelector('.arrow_img')
+                img_arrow.setAttribute('data-side', 'right')
+                img_arrow.removeAttribute('data-clicked')
+                img_arrow.style.width = '6px'
+                img_arrow.style.height = 'auto'
                 img_arrow.style.visibility = "hidden";
             }
+
+            if(img_arrow.getAttribute('data-clicked')){
+                folder.style.paddingLeft = parseInt(folder.style.paddingLeft) - 4 + 'px'
+                Array.from(folders).forEach(subfolder => {
+                    if(subfolder.getAttribute('data-parent-folder') == folder.id){
+                        subfolder.style.display = 'flex'
+                        console.log('es')
+                    }
+                })
+            }
             
-            if(folder.getAttribute('data-parent-folder') != 0){
+            const parent_folder = folderContainer.querySelector(`[data-folder-name='folder${folder.getAttribute('data-parent-folder')}']`)
+            if(folder.getAttribute('data-parent-folder') != 0 && !parent_folder.querySelector('.arrow_img').getAttribute('data-clicked')){
                 folder.style.display = 'none'
             }
         }
@@ -895,7 +916,6 @@ function display_deleted_note() {
         const img = deleted_notes.querySelector('#img_deleted_notes');
         img.setAttribute('src', src_trashDefault);
         deleted_notes.style.background = color_default;
-
         deleted_notes.classList.remove('active')
         folder_click(main_folder)
         displays_note_of_clicked_folder(main_folder)
@@ -1278,7 +1298,7 @@ function save_text_note(id_note, new_text){
 }
 
 // Удаляет папку и её заметки
-function delete_folders(folder) {
+function delete_folders(folder, remove) {
     let id_delete_folder 
     if(folder){
         id_delete_folder = folder.id
@@ -1358,13 +1378,39 @@ function delete_folders(folder) {
                 const parent_folder = folderContainer.querySelector(`[data-folder-name='folder${delete_folder_parent_id}']`)
 
                 let number_of_subfolders = 0
+                let folder_need_to_click = main_folder
+
+                if(delete_folder.getAttribute('data-subfolder-level') != '0' && !remove){
+                    folder_need_to_click = parent_folder
+                    Array.from(folders).forEach(folder => {
+                        if(folder.getAttribute('data-parent-folder') == parent_folder.id){
+                            number_of_subfolders += 1   
+                        }
+                    })
+    
+                    if(number_of_subfolders == 1 ){
+                        console.log(parent_folder)
+                        parent_folder.removeAttribute('data-there-subfolders')
+                        fetch('/delete_all_subfolders/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken')
+                            },
+                            body: JSON.stringify({'id_folder': parent_folder.id})
+                        })
+                        .catch(error => {
+                            console.error('Error', error)
+                        })
+                    }
+                }
 
                 if(delete_folder.getAttribute('data-there-subfolders') == 'True'){
                     let promises = []
 
                     Array.from(folders).forEach(folder => {
                         if(folder.getAttribute('data-parent-folder') == delete_folder.id) {
-                            promises.push(delete_folders(folder))
+                            promises.push(delete_folders(folder, true))
                         }
                     })
                     
@@ -1375,17 +1421,12 @@ function delete_folders(folder) {
                                 number_of_subfolders += 1   
                             }
                         })
-        
-                        if(number_of_subfolders == 0 ){
-                            console.log(parent_folder)
-                            parent_folder.removeAttribute('data-there-subfolders')
-                        }
                     })
                 }
 
                 delete_folder.remove()
                 displays_folders()
-                folder_click(main_folder)
+                folder_click(folder_need_to_click)
                 displays_note_of_clicked_folder(main_folder) 
                 return response.text()
             }
