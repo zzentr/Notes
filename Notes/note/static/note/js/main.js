@@ -631,6 +631,29 @@ function drop(event, to_folder){
     else{
 
         if(to_folder != main_folder && to_folder.getAttribute('data-subfolder-level') != 3 && folder != to_folder){
+            if(folder.getAttribute('data-there-subfolders') == 'True'){
+                const level_to_folder = to_folder.getAttribute('data-subfolder-level')
+                const subfolder1 = folderContainer.querySelector(`[data-parent-folder='${folder.id}']`)
+                let subfolder2
+                if(subfolder1.getAttribute('data-there-subfolders') == 'True'){
+                    console.log(subfolder1)
+                    subfolder2 = folderContainer.querySelector(`[data-parent-folder='${subfolder1.id}']`)
+                    console.log(subfolder2)
+                    if(subfolder2.getAttribute('data-there-subfolders') == 'True'){
+                        return
+                    }
+                }
+                switch(level_to_folder){
+                    case '1':
+                        if(subfolder2){
+                            return
+                        }
+                    case '2':
+                        return
+                        
+                }
+            }
+
             let value_subfolders = false
             if(folder.getAttribute('data-parent-folder') != '0'){
                 const parent_folder = folderContainer.querySelector(`[data-folder-name='folder${folder.getAttribute('data-parent-folder')}']`)
