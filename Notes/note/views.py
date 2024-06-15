@@ -10,7 +10,7 @@ from .models import Notes, Folders
 
 @login_required
 def index(request):
-    folders = Folders.objects.filter(user=request.user).order_by("id")
+    folders = Folders.objects.filter(user=request.user).order_by("subfolder_level")
     notes = Notes.objects.filter(user=request.user).order_by("-time_update")
     
     serialized_folders = FolderSerializer(folders, many=True).data
@@ -20,8 +20,6 @@ def index(request):
             parent_folder = next((el for el in serialized_folders if el.get('id') == int(folder.get('parent_folder'))), None)
             serialized_folders.pop(serialized_folders.index(folder))
             serialized_folders.insert(serialized_folders.index(parent_folder) + 1, folder)
-            print(serialized_folders)
-            print('----------------')
 
     user_timezone_offset = request.session.get('user_timezone_offset')
 
@@ -390,6 +388,14 @@ def change_folder(request):
             folder = Folders.objects.get(pk=id_folder)
             to_folder = Folders.objects.get(pk=id_to_folder)
 
+            if data.get('parent_folder'):
+                parent_folder = Folders.objects.get(pk=folder.parent_folder)
+                parent_folder.there_subfolders = False
+                parent_folder.save()
+
+            if folder.there_subfolders:
+                up_subfolder_level(folder)
+
             if(to_folder.subfolder_level != 3):
                 folder.parent_folder = id_to_folder
                 folder.subfolder_level = int(to_folder.subfolder_level) + 1
@@ -401,6 +407,14 @@ def change_folder(request):
         return HttpResponseBadRequest('The request body cannot be empty')
     return HttpResponseNotAllowed(['POST', 'PATCH'])
 
+
+def up_subfolder_level(folder):
+    subfolders = Folders.objects.filter(parent_folder=folder.id)
+    for subfolder in subfolders:
+        subfolder.subfolder_level = int(subfolder.subfolder_level) + 1
+        subfolder.save()
+        if subfolder.there_subfolders:
+            up_subfolder_level(subfolder)
 
 def page_not_found(request, exception):
     return render(request, '404.html', status=404)

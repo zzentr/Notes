@@ -109,6 +109,7 @@ Array.from(textarea_text).forEach(text => {
 // Вызываем функции для первой папки, чтобы она сразу была выбрана
 folder_click(main_folder)
 displays_note_of_clicked_folder(main_folder)
+folderContainer.prepend(main_folder);
 
 // Добавляет клик для поиска
 search.addEventListener('click', function() {
@@ -628,14 +629,29 @@ function drop(event, to_folder){
         })
     }
     else{
+
         if(to_folder != main_folder && to_folder.getAttribute('data-subfolder-level') != 3 && folder != to_folder){
+            let value_subfolders = false
+            if(folder.getAttribute('data-parent-folder') != '0'){
+                const parent_folder = folderContainer.querySelector(`[data-folder-name='folder${folder.getAttribute('data-parent-folder')}']`)
+                value_subfolders = 0
+                for(let i=0; i<folders.length; i++){
+                    if(folders[i].getAttribute('data-parent-folder') == parent_folder.id){
+                        value_subfolders += 1
+                    }
+                }
+                if(value_subfolders <= 1){
+                    value_subfolders = true
+                    parent_folder.setAttribute('data-there-subfolders', 'False')
+                }
+            }
             fetch('/change_folder/', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': getCookie('csrftoken')
                 },
-                body: JSON.stringify({'id_to_folder': to_folder.id, 'id_folder': folder.id})
+                body: JSON.stringify({'id_to_folder': to_folder.id, 'id_folder': folder.id, 'parent_folder': value_subfolders})
             })
             .then(respone => {
                 if(respone.ok){
@@ -643,12 +659,27 @@ function drop(event, to_folder){
                     folder.setAttribute('data-subfolder-level', parseInt(to_folder.getAttribute('data-subfolder-level')) + 1)
                     to_folder.insertAdjacentElement('afterend', folder)
                     to_folder.setAttribute('data-there-subfolders', 'True')
+                    if(folder.getAttribute('data-there-subfolders')){
+                        up_subfolder_level(folder)
+                    }
                     displays_folders()
                 }
             })
             .catch(error => {
                 console.error('Error:', error)
             })
+        }
+    }
+}
+
+function up_subfolder_level(folder){
+    const subfolders = folderContainer.querySelectorAll(`[data-parent-folder='${folder.id}']`)
+    for(let i=0; i<subfolders.length; i++){
+        const subfolder = subfolders[i]
+        subfolder.setAttribute('data-subfolder-level', parseInt(subfolder.getAttribute('data-subfolder-level')) + 1)
+        folder.insertAdjacentElement('afterend', subfolder)
+        if(subfolder.getAttribute('data-there-subfolders')){
+            up_subfolder_level(subfolder)
         }
     }
 }
@@ -915,7 +946,6 @@ function displays_folders() {
                 Array.from(folders).forEach(subfolder => {
                     if(subfolder.getAttribute('data-parent-folder') == folder.id){
                         subfolder.style.display = 'flex'
-                        console.log('es')
                     }
                 })
             }
@@ -1142,7 +1172,7 @@ function create_new_folder() {
             newFolderElement.setAttribute("draggable", "true")
             newFolderElement.innerHTML += `
                 <input class="new_name_folder" type="text" value="${newFolder.title}" maxlength="100" spellcheck="false">
-                <img class="arrow_img" src="static/note/img/arrow_right.png">
+                <img class="arrow_img" data-side='right' src="static/note/img/arrow_right.png">
                 <img class="folder_img" src="static/note/img/folder.png">
                 <span class="folder_text">${newFolder.title}</span>
                 <img class="img_edit_menu" src="static/note/img/3points/blue.png">
@@ -1210,7 +1240,7 @@ function create_addsubfolder() {
             newFolderElement.setAttribute("draggable", "true")
             newFolderElement.innerHTML += `
                 <input class="new_name_folder" type="text" value="${newFolder.title}" maxlength="100" spellcheck="false">
-                <img class="arrow_img" src="static/note/img/arrow_right.png">
+                <img class="arrow_img" data-side='right' src="static/note/img/arrow_right.png">
                 <img class="folder_img" src="static/note/img/folder.png">
                 <span class="folder_text">${newFolder.title}</span>
                 <img class="img_edit_menu" src="static/note/img/3points/blue.png">
