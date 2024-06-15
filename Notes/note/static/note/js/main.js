@@ -589,7 +589,7 @@ function changeColorTextNote(el) {
     const name_note = el.getAttribute("name")
     let elements = document.querySelectorAll(`[name='${name_note}'] span`);
     elements.forEach(function(element) {
-        element.style.color = 'white';
+        element.style.color = 'white'; 
     });
 }
 
