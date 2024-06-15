@@ -15,12 +15,13 @@ def index(request):
     
     serialized_folders = FolderSerializer(folders, many=True).data
 
-    for folder in serialized_folders:
+    for folder in serialized_folders[:]:
         if folder.get('parent_folder') != '0':
             parent_folder = next((el for el in serialized_folders if el.get('id') == int(folder.get('parent_folder'))), None)
             serialized_folders.pop(serialized_folders.index(folder))
             serialized_folders.insert(serialized_folders.index(parent_folder) + 1, folder)
-
+            print(serialized_folders)
+            print('----------------')
 
     user_timezone_offset = request.session.get('user_timezone_offset')
 
@@ -363,6 +364,42 @@ def restore_note(request):
         return HttpResponseBadRequest('The request body cannot be empty')
     
     return HttpResponseNotAllowed(['POST'])
+
+def change_folder(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        if data.get('id_note') and data.get('id_folder'):
+
+            id_note = data.get('id_note')
+            id_folder = data.get('id_folder')
+
+            note = Notes.objects.get(pk=id_note)
+            note.folder_id = id_folder
+            note.save()
+
+            return HttpResponse()
+        return HttpResponseBadRequest('The request body cannot be empty')
+    
+    if request.method == 'PATCH':
+        data = json.loads(request.body.decode('utf-8'))
+        if data.get('id_to_folder') and data.get('id_folder'):
+
+            id_to_folder = data.get('id_to_folder')
+            id_folder = data.get('id_folder')
+
+            folder = Folders.objects.get(pk=id_folder)
+            to_folder = Folders.objects.get(pk=id_to_folder)
+
+            if(to_folder.subfolder_level != 3):
+                folder.parent_folder = id_to_folder
+                folder.subfolder_level = int(to_folder.subfolder_level) + 1
+                to_folder.there_subfolders = True
+                folder.save()
+                to_folder.save()
+
+            return HttpResponse()
+        return HttpResponseBadRequest('The request body cannot be empty')
+    return HttpResponseNotAllowed(['POST', 'PATCH'])
 
 
 def page_not_found(request, exception):

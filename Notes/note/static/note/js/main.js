@@ -88,6 +88,7 @@ const src_arrow_down_white = "/static/note/img/arrow_down_white.png"
 
 // Запускаем функции для функциональности папок, заметок и сохранения текста
 displays_folders() 
+// ondrop="drop(event)" ondragover="allowDrop(event)"
 
 Array.from(folders).forEach(folder => {
     folder_functions(folder)
@@ -156,11 +157,24 @@ function folder_functions(folder){
         folder_mouseout(folder);
     })
 
+    folder.addEventListener('drop', function(event){
+        drop(event, folder)
+    })
+    folder.addEventListener('dragover', function(event){
+        drop_mouse(event)
+    })
+    folder.addEventListener('dragleave', function(event){
+        drop_mouseout(event)
+    })
+    folder.addEventListener('dragstart', function(event) {
+        event.dataTransfer.setData('folder', folder.id)
+    })
+
     // Обрабатывает подтверждение переименования папки
     if(folder.getAttribute("name") == "main_folder"){
         return;
     }
-
+    
     inputFolder = folder.querySelector(".new_name_folder")
 
     inputFolder.addEventListener("blur", function() {
@@ -218,6 +232,10 @@ function note_functions(note){
 
     note.addEventListener('mouseout', function() {
         note_mouseout(note);
+    })
+
+    note.addEventListener('dragstart', function(event){
+        event.dataTransfer.setData('note', note.id)
     })
 };
 
@@ -585,6 +603,72 @@ function changeColorTextNoteDefault(el) {
             element.style.color = "#88898a";
         }
     });
+}
+
+function drop(event, to_folder){
+    const note = document.querySelector(`[name='note${event.dataTransfer.getData('note')}'`)
+    const folder = folderContainer.querySelector(`[data-folder-name='folder${event.dataTransfer.getData('folder')}']`)
+    if(note){
+        fetch('/change_folder/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({'id_note': note.id, 'id_folder': to_folder.id})
+        })
+        .then(respone => {
+            if(respone.ok){
+                note.setAttribute('data-folder-id', to_folder.id)
+                displays_note_of_clicked_folder(folderContainer.querySelector(`[data-folder-name='folder${id_current_folder}']`))
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error)
+        })
+    }
+    else{
+        if(to_folder != main_folder && to_folder.getAttribute('data-subfolder-level') != 3 && folder != to_folder){
+            fetch('/change_folder/', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({'id_to_folder': to_folder.id, 'id_folder': folder.id})
+            })
+            .then(respone => {
+                if(respone.ok){
+                    folder.setAttribute('data-parent-folder', to_folder.id)
+                    folder.setAttribute('data-subfolder-level', parseInt(to_folder.getAttribute('data-subfolder-level')) + 1)
+                    to_folder.insertAdjacentElement('afterend', folder)
+                    to_folder.setAttribute('data-there-subfolders', 'True')
+                    displays_folders()
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error)
+            })
+        }
+    }
+}
+
+function drop_mouse(event){
+    event.preventDefault()
+    let folder = event.target
+    if(folder.className != 'folder'){
+        folder = event.target.parentElement
+    }
+    folder_mouse(folder)
+}
+
+function drop_mouseout(event){
+    event.preventDefault()
+    let folder = event.target
+    if(folder.className != 'folder'){
+        folder = event.target.parentElement
+    }
+    folder_mouseout(folder)
 }
 
 function search_notes() {
@@ -1055,6 +1139,7 @@ function create_new_folder() {
             newFolderElement.setAttribute('data-parent-folder', '0');
             newFolderElement.setAttribute('data-there-subfolders', 'false');
             newFolderElement.setAttribute('data-subfolder-level', '0')
+            newFolderElement.setAttribute("draggable", "true")
             newFolderElement.innerHTML += `
                 <input class="new_name_folder" type="text" value="${newFolder.title}" maxlength="100" spellcheck="false">
                 <img class="arrow_img" src="static/note/img/arrow_right.png">
@@ -1122,6 +1207,7 @@ function create_addsubfolder() {
             newFolderElement.setAttribute('data-folder-name', 'folder' + newFolder.id);
             newFolderElement.setAttribute('data-there-subfolders', 'false');
             newFolderElement.setAttribute('data-subfolder-level', subfolder_level);
+            newFolderElement.setAttribute("draggable", "true")
             newFolderElement.innerHTML += `
                 <input class="new_name_folder" type="text" value="${newFolder.title}" maxlength="100" spellcheck="false">
                 <img class="arrow_img" src="static/note/img/arrow_right.png">
@@ -1184,6 +1270,7 @@ function create_new_note(id_Newfolder=null) {
         newNoteElement.setAttribute('data-folder-id', newNote.folder_id)
         newNoteElement.setAttribute('id', newNote.id)
         newNoteElement.setAttribute('name', 'note'+newNote.id)
+        newNoteElement.setAttribute("draggable", "true")
 
         newNoteElement.innerHTML += `
             <span class="name_note">${newNote.title}</span>
