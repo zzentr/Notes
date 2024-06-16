@@ -388,13 +388,10 @@ def change_folder(request):
             folder = Folders.objects.get(pk=id_folder)
             to_folder = Folders.objects.get(pk=id_to_folder)
 
-            if data.get('parent_folder'):
+            if data.get('parent_folder') is True:
                 parent_folder = Folders.objects.get(pk=folder.parent_folder)
                 parent_folder.there_subfolders = False
                 parent_folder.save()
-
-            if folder.there_subfolders:
-                up_subfolder_level(folder)
 
             if(to_folder.subfolder_level != 3):
                 folder.parent_folder = id_to_folder
@@ -402,6 +399,9 @@ def change_folder(request):
                 to_folder.there_subfolders = True
                 folder.save()
                 to_folder.save()
+
+            if folder.there_subfolders:
+                up_subfolder_level(folder)
 
             return HttpResponse()
         return HttpResponseBadRequest('The request body cannot be empty')
@@ -411,7 +411,7 @@ def change_folder(request):
 def up_subfolder_level(folder):
     subfolders = Folders.objects.filter(parent_folder=folder.id)
     for subfolder in subfolders:
-        subfolder.subfolder_level = int(subfolder.subfolder_level) + 1
+        subfolder.subfolder_level = int(folder.subfolder_level) + 1
         subfolder.save()
         if subfolder.there_subfolders:
             up_subfolder_level(subfolder)

@@ -629,16 +629,13 @@ function drop(event, to_folder){
         })
     }
     else{
-
         if(to_folder != main_folder && to_folder.getAttribute('data-subfolder-level') != 3 && folder != to_folder){
             if(folder.getAttribute('data-there-subfolders') == 'True'){
                 const level_to_folder = to_folder.getAttribute('data-subfolder-level')
                 const subfolder1 = folderContainer.querySelector(`[data-parent-folder='${folder.id}']`)
                 let subfolder2
                 if(subfolder1.getAttribute('data-there-subfolders') == 'True'){
-                    console.log(subfolder1)
                     subfolder2 = folderContainer.querySelector(`[data-parent-folder='${subfolder1.id}']`)
-                    console.log(subfolder2)
                     if(subfolder2.getAttribute('data-there-subfolders') == 'True'){
                         return
                     }
@@ -648,9 +645,9 @@ function drop(event, to_folder){
                         if(subfolder2){
                             return
                         }
+                        break
                     case '2':
                         return
-                        
                 }
             }
 
@@ -680,11 +677,14 @@ function drop(event, to_folder){
                 if(respone.ok){
                     folder.setAttribute('data-parent-folder', to_folder.id)
                     folder.setAttribute('data-subfolder-level', parseInt(to_folder.getAttribute('data-subfolder-level')) + 1)
+                    const arrow_img = folder.querySelector('.arrow_img')
                     to_folder.insertAdjacentElement('afterend', folder)
                     to_folder.setAttribute('data-there-subfolders', 'True')
                     if(folder.getAttribute('data-there-subfolders')){
                         up_subfolder_level(folder)
                     }
+                    off_subfolders(folder)
+                    off_subfolders(to_folder)
                     displays_folders()
                 }
             })
@@ -699,12 +699,28 @@ function up_subfolder_level(folder){
     const subfolders = folderContainer.querySelectorAll(`[data-parent-folder='${folder.id}']`)
     for(let i=0; i<subfolders.length; i++){
         const subfolder = subfolders[i]
-        subfolder.setAttribute('data-subfolder-level', parseInt(subfolder.getAttribute('data-subfolder-level')) + 1)
+        subfolder.setAttribute('data-subfolder-level', parseInt(folder.getAttribute('data-subfolder-level')) + 1)
+        const arrow_img = subfolder.querySelector('.arrow_img')
+        off_subfolders(subfolder)
         folder.insertAdjacentElement('afterend', subfolder)
         if(subfolder.getAttribute('data-there-subfolders')){
             up_subfolder_level(subfolder)
         }
     }
+}
+
+function off_subfolders(folder){
+    const arrow_img = folder.querySelector('.arrow_img')
+    arrow_img.removeAttribute('data-clicked')
+    arrow_img.setAttribute('data-side', 'right')
+    if(folder.getAttribute('data-clicked')){
+        arrow_img.setAttribute('src', src_arrow_right_white)
+    }
+    else{
+        arrow_img.setAttribute('src', src_arrow_right)
+    }
+    arrow_img.style.width = '6px'
+    arrow_img.style.height = 'auto'
 }
 
 function drop_mouse(event){
@@ -945,7 +961,7 @@ function displays_folders() {
                     folderPaddings[folder.id] = 30
                     rename_folder.style.left = '75px'
                     break
-                case '3':
+                default:
                     folder.style.paddingLeft = '40px'
                     folderPaddings[folder.id] = 40
                     rename_folder.style.left = '80px'
@@ -964,7 +980,7 @@ function displays_folders() {
                 img_arrow.style.visibility = "hidden";
             }
 
-            if(img_arrow.getAttribute('data-clicked')){
+            if(img_arrow.getAttribute('data-clicked') == 'True'){
                 folder.style.paddingLeft = parseInt(folder.style.paddingLeft) - 4 + 'px'
                 Array.from(folders).forEach(subfolder => {
                     if(subfolder.getAttribute('data-parent-folder') == folder.id){
@@ -974,7 +990,7 @@ function displays_folders() {
             }
             
             const parent_folder = folderContainer.querySelector(`[data-folder-name='folder${folder.getAttribute('data-parent-folder')}']`)
-            if(folder.getAttribute('data-parent-folder') != 0 && !parent_folder.querySelector('.arrow_img').getAttribute('data-clicked')){
+            if(folder.getAttribute('data-parent-folder') != 0 && parent_folder.querySelector('.arrow_img').getAttribute('data-clicked') != 'True'){
                 folder.style.display = 'none'
             }
         }
