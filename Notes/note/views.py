@@ -416,5 +416,26 @@ def up_subfolder_level(folder):
         if subfolder.there_subfolders:
             up_subfolder_level(subfolder)
 
+def folder_to_container(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        if data.get('id_folder'):
+
+            folder = Folders.objects.get(pk=data.get('id_folder'))
+
+            if data.get('parent_folder') is True:
+                parent_folder = Folders.objects.get(pk=folder.parent_folder)
+                parent_folder.there_subfolders = False
+                parent_folder.save()
+
+            folder.subfolder_level = 0
+            folder.parent_folder = 0
+            folder.save()
+            up_subfolder_level(folder)
+
+            return HttpResponse()
+        return HttpResponseBadRequest('The request body cannot be empty')
+    return HttpResponseNotAllowed(['POST'])
+
 def page_not_found(request, exception):
     return render(request, '404.html', status=404)

@@ -88,7 +88,6 @@ const src_arrow_down_white = "/static/note/img/arrow_down_white.png"
 
 // Запускаем функции для функциональности папок, заметок и сохранения текста
 displays_folders() 
-// ondrop="drop(event)" ondragover="allowDrop(event)"
 
 Array.from(folders).forEach(folder => {
     folder_functions(folder)
@@ -118,6 +117,16 @@ search.addEventListener('click', function() {
 
 search.addEventListener('input', function() {
     search_notes()
+})
+
+folderContainer.addEventListener('drop', function(event) {
+    if(event.target == folderContainer){
+        drop(event, folderContainer)
+    }
+})
+
+folderContainer.addEventListener('dragover', function(event) {
+    event.preventDefault()
 })
 
 // Обрабатывает максимальное кол-во символов
@@ -628,6 +637,37 @@ function drop(event, to_folder){
             console.error('Error:', error)
         })
     }
+    else if(to_folder == folderContainer){
+        console.log('qeqwe')
+        if(folder.getAttribute('data-subfolder-level') == '0'){
+            return
+        }
+        const parent_folder = folderContainer.querySelector(`[data-folder-name='folder${folder.getAttribute('data-parent-folder')}']`)
+        let value_subfolders = check_subfolders(parent_folder)
+        fetch('/folder_to_container/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({'id_folder': folder.id, 'parent_folder': value_subfolders})
+        })
+        .then(respone => {
+            if(respone.ok){
+                folder.setAttribute('data-parent-folder', '0')
+                folder.setAttribute('data-subfolder-level', '0')
+                folderContainer.insertBefore(folder, deleted_notes);
+                if(folder.getAttribute('data-there-subfolders')){
+                    up_subfolder_level(folder)
+                }
+                off_subfolders(folder)
+                displays_folders()
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error)
+        })
+    }
     else{
         if(to_folder != main_folder && to_folder.getAttribute('data-subfolder-level') != 3 && folder != to_folder){
             if(folder.getAttribute('data-there-subfolders') == 'True'){
@@ -650,20 +690,10 @@ function drop(event, to_folder){
                         return
                 }
             }
-
             let value_subfolders = false
             if(folder.getAttribute('data-parent-folder') != '0'){
                 const parent_folder = folderContainer.querySelector(`[data-folder-name='folder${folder.getAttribute('data-parent-folder')}']`)
-                value_subfolders = 0
-                for(let i=0; i<folders.length; i++){
-                    if(folders[i].getAttribute('data-parent-folder') == parent_folder.id){
-                        value_subfolders += 1
-                    }
-                }
-                if(value_subfolders <= 1){
-                    value_subfolders = true
-                    parent_folder.setAttribute('data-there-subfolders', 'False')
-                }
+                value_subfolders = check_subfolders(parent_folder)
             }
             fetch('/change_folder/', {
                 method: 'PATCH',
@@ -677,7 +707,6 @@ function drop(event, to_folder){
                 if(respone.ok){
                     folder.setAttribute('data-parent-folder', to_folder.id)
                     folder.setAttribute('data-subfolder-level', parseInt(to_folder.getAttribute('data-subfolder-level')) + 1)
-                    const arrow_img = folder.querySelector('.arrow_img')
                     to_folder.insertAdjacentElement('afterend', folder)
                     to_folder.setAttribute('data-there-subfolders', 'True')
                     if(folder.getAttribute('data-there-subfolders')){
@@ -719,6 +748,20 @@ function off_subfolders(folder){
     }
     arrow_img.style.width = '6px'
     arrow_img.style.height = 'auto'
+}
+
+function check_subfolders(folder){
+    let value_subfolders = 0
+    for(let i=0; i<folders.length; i++){
+        if(folders[i].getAttribute('data-parent-folder') == folder.id){
+            value_subfolders += 1
+        }
+    }
+    if(value_subfolders <= 1){
+        value_subfolders = true
+        folder.setAttribute('data-there-subfolders', 'False')
+    }
+    return value_subfolders
 }
 
 function drop_mouse(event){

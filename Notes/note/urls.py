@@ -19,6 +19,7 @@ urlpatterns = [
     path('delete_note/', views.delete_note, name="delete_note"),
     path('restore_note/', views.restore_note, name="restore_note"),
     path('change_folder/', views.change_folder, name="change_folder"),
+    path('folder_to_container/', views.folder_to_container, name="folder_to_container"),
     path('<slug:folder_slug>/', views.folder_detail, name='folder'),
     path('<slug:folder_slug>/<slug:note_slug>/', views.note_detail, name='note'),
 ]
