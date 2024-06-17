@@ -684,7 +684,6 @@ function drop(event, to_folder){
                         up_subfolder_level(folder)
                     }
                     off_subfolders(folder)
-                    off_subfolders(to_folder)
                     displays_folders()
                 }
             })
@@ -700,10 +699,9 @@ function up_subfolder_level(folder){
     for(let i=0; i<subfolders.length; i++){
         const subfolder = subfolders[i]
         subfolder.setAttribute('data-subfolder-level', parseInt(folder.getAttribute('data-subfolder-level')) + 1)
-        const arrow_img = subfolder.querySelector('.arrow_img')
         off_subfolders(subfolder)
         folder.insertAdjacentElement('afterend', subfolder)
-        if(subfolder.getAttribute('data-there-subfolders')){
+        if(subfolder.getAttribute('data-there-subfolders') == 'True'){
             up_subfolder_level(subfolder)
         }
     }
@@ -713,7 +711,7 @@ function off_subfolders(folder){
     const arrow_img = folder.querySelector('.arrow_img')
     arrow_img.removeAttribute('data-clicked')
     arrow_img.setAttribute('data-side', 'right')
-    if(folder.getAttribute('data-clicked')){
+    if(folder.getAttribute('data-clicked') == 'true'){
         arrow_img.setAttribute('src', src_arrow_right_white)
     }
     else{
@@ -980,7 +978,8 @@ function displays_folders() {
                 img_arrow.style.visibility = "hidden";
             }
 
-            if(img_arrow.getAttribute('data-clicked') == 'True'){
+            if(img_arrow.getAttribute('data-clicked') == 'true'){
+                console.log("da")
                 folder.style.paddingLeft = parseInt(folder.style.paddingLeft) - 4 + 'px'
                 Array.from(folders).forEach(subfolder => {
                     if(subfolder.getAttribute('data-parent-folder') == folder.id){
@@ -990,7 +989,7 @@ function displays_folders() {
             }
             
             const parent_folder = folderContainer.querySelector(`[data-folder-name='folder${folder.getAttribute('data-parent-folder')}']`)
-            if(folder.getAttribute('data-parent-folder') != 0 && parent_folder.querySelector('.arrow_img').getAttribute('data-clicked') != 'True'){
+            if(folder.getAttribute('data-parent-folder') != 0 && parent_folder.querySelector('.arrow_img').getAttribute('data-clicked') != 'true'){
                 folder.style.display = 'none'
             }
         }
