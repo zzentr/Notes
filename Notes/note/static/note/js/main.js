@@ -11,7 +11,6 @@ fetch('/save_timezone_offset/', {
     body: JSON.stringify(userData)
 })
 
-// Получаем ответ от сервера
 .then(response => {
     if (!response.ok) {
         return response.text()
@@ -22,7 +21,6 @@ fetch('/save_timezone_offset/', {
     if(data){console.log(data)}
 })
 
-// Обрабатываем ошибку запроса
 .catch(error => {
     console.error('Error:', error);
 });
@@ -52,7 +50,9 @@ const img_delete_note = document.getElementById('trash_img');
 const deleted_notes = document.getElementById("deleted_notes");
 const text_about_deleted_notes = document.getElementById("text_about_deleted_notes");
 const restore_note = document.getElementById("restore_note");
+const head_change_text = document.getElementById('head')
 
+// Переменные
 let id_folder = 0;
 let id_current_folder = 0;
 let id_current_note = null;

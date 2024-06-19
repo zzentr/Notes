@@ -153,6 +153,10 @@ aside {
     border: 1px solid #d9dadb;
     user-select: none;
     visibility: hidden;
+    box-shadow: 0 -6px 5px rgba(0, 0, 0, 0.1), 
+                0 6px 5px rgba(0, 0, 0, 0.1), 
+                6px 0 5px rgba(0, 0, 0, 0.1),
+                -6px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .button_edit_menu {
@@ -321,7 +325,7 @@ aside {
     height: 2px;
 }
 
-.head {
+#head {
     border-top: 0;
     border-left: 0;
     width: 100%;
@@ -330,6 +334,30 @@ aside {
     bottom: 916px;
     left: 552px; 
     text-align: right; 
+}
+
+#edit_text {
+    color: #3F888F;
+    font-size: 20px;
+    position: absolute;
+    left: 47%;
+    padding-right: 8px;
+}
+
+#add_checkbox {
+    color: #3F888F;
+    font-size: 20px;
+    position: absolute;
+    left: 50%;
+    padding-right: 8px;
+}
+
+#add_img {
+    color: #3F888F;
+    font-size: 20px;
+    position: absolute;
+    left: 53%;
+    padding-right: 8px;
 }
 
 #restore_note {
@@ -347,6 +375,21 @@ aside {
     user-select: none;
 }
 
+#menu_edit_text {
+    width: 270px;
+    height: 450px;
+    background-color: white;
+    border-radius: 8px;
+    position: absolute;
+    top: 85px;
+    left: 1070px;
+    box-shadow: 0 -6px 5px rgba(0, 0, 0, 0.1), 
+                0 6px 5px rgba(0, 0, 0, 0.1), 
+                6px 0 5px rgba(0, 0, 0, 0.1),
+                -6px 0 5px rgba(0, 0, 0, 0.1);
+    
+}
+
 .img_edit {
     width: 20px;
     height: auto;
@@ -356,12 +399,14 @@ aside {
     position: absolute;
     bottom: 10px;
     cursor: pointer;
+    user-select: none;
 }
 
 #trash_img {
     position: absolute;
     right: 0;
     margin-right: 20px;
+    margin-bottom: 5px
 }
 
 .main_window {

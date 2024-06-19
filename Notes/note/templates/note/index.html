@@ -81,8 +81,11 @@
 
     <main>
         <div id="container">
-            <div class="head">
+            <div id="head">
                 <span id="restore_note" title="Восстановить заметку">Восстановить</span>
+                <div class="img_edit" id="edit_text" title="Изменить текст">Aa</div>
+                <div class="img_edit" id="add_checkbox" title="Добавить перечень">Бб</div>
+                <div class="img_edit" id="add_img" title="Добавить изображение">Вв</div>
                 <img class="img_edit" id="trash_img" title="Удалить заметку" src="{% static "note/img/trash.png" %}">
             </div>
             <div id="textareas">
@@ -92,6 +95,17 @@
                         <textarea class="text_input" id="text{{ note.pk }}" name="text{{ note.title }}" spellcheck="false" placeholder="Текст">{{ note.content }}</textarea>
                     </div>
                 {% endfor %}
+            </div>
+        </div>
+        <div id="menu_edit_text">
+            <div id="font_type">
+                <div class="button_edit_text" id="add_bold"><b>B</b></div>
+                <div class="button_edit_text" id="add_bold"><i>i</i></div>
+                <div class="button_edit_text" id="add_bold"><u>U</u></div>
+                <div class="button_edit_text" id="add_bold"><s>S</s></div>
+            </div>
+            <div id="text_size_and_list">
+
             </div>
         </div>
     </main>
