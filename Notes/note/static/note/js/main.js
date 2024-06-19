@@ -940,7 +940,9 @@ function rename_folder_click() {
     rename.select();
     rename.focus();
     folder.setAttribute("data-rename", "true");
-    folder.style.backgroundColor = color_default;
+    folder.style.backgroundColor = color_clickout;
+    folder.querySelector('.folder_text').style.color = 'black'
+    folder.querySelector('.folder_img').setAttribute('src', src_folderDefault);
 }
 
 // Устанавливает ограничение текста в разных местах ...
@@ -1299,11 +1301,13 @@ function create_new_folder() {
             const folderPadding = parseInt(folderStyles.getPropertyValue('padding-left'), 10)
     
             folderPaddings[newFolder.id] = folderPadding
+            id_folder = newFolderElement.id
             
             // Выполняем функции папок для новой папки
             create_new_note(newFolder.id)
             folder_functions(newFolderElement)
             folder_click(newFolderElement)
+            rename_folder_click()
             }
     })
 
@@ -1371,11 +1375,13 @@ function create_addsubfolder() {
 
             const img_arrow = parent_folder.querySelector('.arrow_img')
             img_arrow.style.visibility = "visible";
+            id_folder = newFolderElement.id
 
             create_new_note(newFolder.id)
             folder_functions(newFolderElement)
             display_subfolders(parent_folder, arrow_img, false, true) 
             folder_click(newFolderElement)
+            rename_folder_click()
         }
     })
 }

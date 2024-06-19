@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'note.apps.NoteConfig',
-    'login.apps.LoginConfig'
+    'login.apps.LoginConfig',
+    'social_django'
 ]
 
 MIDDLEWARE = [
