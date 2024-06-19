@@ -382,14 +382,55 @@ aside {
     border-radius: 8px;
     position: absolute;
     top: 85px;
-    left: 1070px;
+    left: 1075px;
     box-shadow: 0 -6px 5px rgba(0, 0, 0, 0.1), 
                 0 6px 5px rgba(0, 0, 0, 0.1), 
                 6px 0 5px rgba(0, 0, 0, 0.1),
                 -6px 0 5px rgba(0, 0, 0, 0.1);
-    
+    display: none;
 }
 
+#font_type {
+    width: 100%;
+    height: 12%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    user-select: none;
+}
+
+.button_edit_type_text {
+    font-size: 21px;
+    padding: 7px 15px;
+    border-radius: 8px;
+}
+
+#add_italick {
+    padding: 7px 20px;
+}
+
+#text_size_and_list {
+    width: 100%;
+    height: 88%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    user-select: none;
+}
+
+.button_edit_text {
+    width: 210px;
+    height: 30px;
+    padding: 15px 0px 10px 50px;
+    margin-left: 5px;
+    border-radius: 8px;
+}
+
+h2, h3, h4, pre {
+    margin: 0;
+    padding: 0;
+  }
+  
 .img_edit {
     width: 20px;
     height: auto;

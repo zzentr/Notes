@@ -50,7 +50,13 @@ const img_delete_note = document.getElementById('trash_img');
 const deleted_notes = document.getElementById("deleted_notes");
 const text_about_deleted_notes = document.getElementById("text_about_deleted_notes");
 const restore_note = document.getElementById("restore_note");
-const head_change_text = document.getElementById('head')
+const head_change_text = document.getElementById('head');
+const menu_edit_text = document.getElementById('menu_edit_text');
+const edit_text = document.getElementById('edit_text');
+const add_checkbox = document.getElementById('add_checkbox');
+const add_img = document.getElementById('add_img');
+const button_edit_type_text = document.getElementsByClassName('button_edit_type_text');
+const button_edit_text = document.getElementsByClassName('button_edit_text');
 
 // Переменные
 let id_folder = 0;
@@ -299,6 +305,24 @@ Array.from(img_edit).forEach(img => {
     })
 })
 
+Array.from(button_edit_type_text).forEach(button => {
+    button.addEventListener("mouseover", function() {
+        edit_menu_mouse(button);
+    })
+    button.addEventListener("mouseout", function() {
+        edit_menu_mouseout(button);
+    })
+})
+
+Array.from(button_edit_text).forEach(button => {
+    button.addEventListener("mouseover", function() {
+        edit_menu_mouse(button);
+    })
+    button.addEventListener("mouseout", function() {
+        edit_menu_mouseout(button);
+    })
+})
+
 // Обрабатывает нажатие на rename папки
 rename_folder.addEventListener("click", function() {
     rename_folder_click();
@@ -362,6 +386,10 @@ restore_note.addEventListener('mouseover', function() {
 
 restore_note.addEventListener('mouseout', function() {
     button_mouseout_white(restore_note)
+})
+
+edit_text.addEventListener('click', function() {
+    menu_edit_text.style.display = 'block'
 })
 
 img_delete_note.addEventListener('click', function() {
@@ -430,6 +458,10 @@ document.addEventListener('click', function(event) {
             deleted_notes.style.backgroundColor = color_default
             deleted_notes.setAttribute("data-clicked", "false")
         }
+    }
+
+    if(event.target !== edit_text){
+        menu_edit_text.style.display = 'none'
     }
     
 });
