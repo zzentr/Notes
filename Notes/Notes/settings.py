@@ -63,6 +63,8 @@ TEMPLATES = [
     },
 ]
 
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
 WSGI_APPLICATION = 'Notes.wsgi.application'
 
 
@@ -79,6 +81,12 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.vk.VKOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 
 # Password validation
