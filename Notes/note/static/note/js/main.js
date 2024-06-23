@@ -264,9 +264,11 @@ function note_title_functions(title){
         display_valid_data(title);
         
         clearTimeout(timerMap_title.get(noteId));
+        save_text = false
         
         timerMap_title.set(noteId, setTimeout(() => {
             save_title_note(noteId, title.value);
+            save_text = true
         }, 2000));
     });
 };
@@ -278,12 +280,21 @@ function note_text_functions(text){
         display_valid_data(text);
         
         clearTimeout(timerMap_text.get(noteId));
+        save_text = false
         
         timerMap_text.set(noteId, setTimeout(() => {
             save_text_note(noteId, text.value);
+            save_text = true
         }, 2000));
     });
 };
+
+window.addEventListener('beforeunload', function (event) {
+    if (!save_text) {
+        event.preventDefault();
+        this.alert("У вас есть несохранённые данные. Вы уверены что хотити выйти?")
+    }
+});
 
 // Добавляет для кнопки редактирования папки функции
 Array.from(edit_menu_buttons).forEach(edit => {

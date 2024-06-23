@@ -4,35 +4,35 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    height: 100%;
+    width: 100%;
 }
 
 header {
     background-color: #f5f6f7;
     border: 1px solid #d9dadb;
     height: 4vh;
-    width: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .name_of_site {
     font-size: 23px;
     padding-left: 50px;
-    padding-top: 10px;
     user-select: none;
 }
 
 #logout_of_account {
     font-size: 20px;
     color: #48a2ab;
-    position: absolute;
-    right: 0;
-    top: 10px;
-    margin-right: 10px;
     user-select: none;
     text-decoration: none;
     border: 0;
     background-color: #f5f6f7;
     cursor: pointer;
-    
+    margin-right: 25px;
 }
 
 #logout_of_account:hover {
@@ -315,13 +315,14 @@ aside {
     user-select: none;
 }
 
+
 #line_under_adding_note {
     background-color: #f5f6f7; 
     position: absolute;
     border: 0;
     top: 94.8vh;
-    left: 250px;
-    width: 290px;
+    left: 251px;
+    width: 300px;
     height: 2px;
 }
 
