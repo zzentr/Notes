@@ -400,6 +400,10 @@ restore_note.addEventListener('mouseout', function() {
 })
 
 edit_text.addEventListener('click', function() {
+    if(menu_edit_text.style.display == 'block'){
+        menu_edit_text.style.display = 'none'
+        return
+    }
     menu_edit_text.style.display = 'block'
 })
 

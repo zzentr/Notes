@@ -7,7 +7,6 @@ from django.shortcuts import get_object_or_404, render
 from .serializers import NoteSerializer, FolderSerializer
 from .models import Notes, Folders
 
-
 @login_required
 def index(request):
     folders = Folders.objects.filter(user=request.user).order_by("subfolder_level")

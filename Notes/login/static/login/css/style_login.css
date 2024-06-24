@@ -28,6 +28,12 @@ body {
     text-align: center;
 }
 
+#container.email {
+    width: 350px;
+    height: 250px;
+    text-align: center;
+}
+
 .form_input {
     border: 1px solid #3F888F;
     box-sizing: border-box;
@@ -49,6 +55,12 @@ body {
 
 .form_input:focus {
     border: 3px solid #3F888F;
+}
+
+.form_input.code_for_email {
+    top: 25px;
+    width: 30%;
+    text-align: center
 }
 
 label {
@@ -118,6 +130,12 @@ label {
     font-size: 20px;
     position: relative;
     top: 50px;
+}
+
+#message_confirmation_email {
+    font-size: 20px;
+    position: relative;
+    top: 20px;
 }
 
 #button_login {
