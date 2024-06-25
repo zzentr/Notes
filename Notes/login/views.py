@@ -33,8 +33,9 @@ def registation_user(request):
     return render(request, 'login/registration.html', {'form': form, 'title': 'Регистрация'})
 
 
-def confirmation_email(request):
-    return render(request, 'login/confirmation_email.html')
+def confirmation_email(request, error=None):
+    print(error)
+    return render(request, 'login/confirmation_email.html', {'error': error})
 
 
 def send_confirmation_email(email, new_user):
@@ -44,7 +45,7 @@ def send_confirmation_email(email, new_user):
     new_user.last_login = datetime.datetime.now()
     new_user.save()
     subject = 'Подтверждение почты'
-    message = f'Здравствуйте! Ваш код подтверждения: {confirmation_code}'
+    message = f'Привет 💗! Ваш код подтверждения: {confirmation_code}'
     from_email = settings.EMAIL_HOST_USER 
     recipient_list = [email]
     send_mail(subject, message, from_email, recipient_list)
@@ -58,9 +59,9 @@ def check_code(request):
         db_time = user.last_login
         db_time = db_time.replace(tzinfo=datetime.timezone.utc)
         
-
         current_time = datetime.datetime.now()
         current_time = current_time.replace(tzinfo=datetime.timezone.utc)
+
         time_difference = current_time - db_time
         if time_difference.total_seconds() < 600:
             if(user.last_name == code):
@@ -70,5 +71,6 @@ def check_code(request):
                 folder = Folders.objects.create(title="Заметки", main_folder=True, user=user)
                 Notes.objects.create(title="Новая заметки", folder_id=folder.pk, user=user)
                 return render(request, 'login/registration_done.html')
-            return redirect('confirmation_email', {'incorrect_code': 'true'})
-        return redirect('confirmation_email', {'time_has_out': 'true'})
+            return redirect('confirmation_email', 'incorrect_code')
+        user.delete()
+        return redirect('confirmation_email', 'time_has_out')

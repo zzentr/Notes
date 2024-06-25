@@ -96,6 +96,10 @@ label {
     color: #f06868
 }
 
+#time_has_out {
+    color: #f06868
+}
+
 .send_data.code_for_email {
     bottom: 0px
 }
