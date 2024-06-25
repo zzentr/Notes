@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 
 
 class LoginUserForm(AuthenticationForm):
@@ -12,6 +13,9 @@ class LoginUserForm(AuthenticationForm):
         password = self.cleaned_data.get('password')
 
         if username and password:
+            user = User.objects.get(username=username)
+            if user.first_name == 'confirmation':
+                raise forms.ValidationError("Пожалуйста, подтвердите вашу почту.")
             self.user_cache = authenticate(self.request, username=username, password=password)
             if self.user_cache is None:
                 raise forms.ValidationError("Неправильное имя пользователя или пароль. Пожалуйста, попробуйте снова.")
