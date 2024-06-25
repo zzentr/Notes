@@ -5,10 +5,13 @@
 
 {% block content %}
 <div id='container' class='email'>
-    <form action="users/check_email/" method="post"></form>
+    <form action="/users/check_code/" method="post">
         {% csrf_token %}
         <p id='message_confirmation_email'>На вашу почту был отправлен код, введите его ниже</p>
-        <input type="text" class='form_input code_for_email' title="Введите код" placeholder="000010">
+        <input type="text" class='form_input code_for_email' title="Введите код" name="code" placeholder="000010">
+        {% if incorrect_code %}
+            <div id='incorrect_code'>Неправильный код</div>
+        {% endif %}
         <button type="submit" class="send_data code_for_email">Отправить</button>
     </form>
 </div>

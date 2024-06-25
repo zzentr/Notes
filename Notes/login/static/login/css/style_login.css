@@ -30,7 +30,7 @@ body {
 
 #container.email {
     width: 350px;
-    height: 250px;
+    height: 200px;
     text-align: center;
 }
 
@@ -58,7 +58,7 @@ body {
 }
 
 .form_input.code_for_email {
-    top: 25px;
+    top: 0px;
     width: 30%;
     text-align: center
 }
@@ -90,6 +90,14 @@ label {
 
 .send_data:hover {
     background-color: #48a2ab;
+}
+
+#incorrect_code{
+    color: #f06868
+}
+
+.send_data.code_for_email {
+    bottom: 0px
 }
 
 .errorlist {
@@ -135,7 +143,7 @@ label {
 #message_confirmation_email {
     font-size: 20px;
     position: relative;
-    top: 20px;
+    top: 10px;
 }
 
 #button_login {
