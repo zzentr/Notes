@@ -18,10 +18,17 @@ header {
     justify-content: space-between;
 }
 
+#logo_site {
+    width: 50px;
+    height: auto
+}
+
 .name_of_site {
     font-size: 23px;
-    padding-left: 50px;
+    padding-left: 10px;
     user-select: none;
+    display: flex;
+    align-items: center
 }
 
 #logout_of_account {
@@ -163,15 +170,29 @@ aside {
     font-size: 15px;
     background-color: white;
     border-radius: 8px;
-    display: block;
+    display: flex;
     transform: translateY(5px);
     padding-top: 4px;
     padding-bottom: 4px;
-    padding-left: 37px;
+    padding-left: 15px;
     margin-left: 5px;
     margin-right: 5px;
     cursor: pointer;
+    align-items: center;
 }
+
+#delete_folder {
+    color: #f06868
+}
+
+#img_add_folder {
+    padding-right: 5px;
+}
+
+#img_rename_folder {
+    padding-right: 9px;
+}
+
 
 #line_edit_menu {
     margin-top: 10px;
@@ -404,6 +425,7 @@ aside {
     font-size: 21px;
     padding: 7px 15px;
     border-radius: 8px;
+    cursor: pointer;
 }
 
 #add_italick {
@@ -425,6 +447,7 @@ aside {
     padding: 15px 0px 10px 50px;
     margin-left: 5px;
     border-radius: 8px;
+    cursor: pointer;
 }
 
 h2, h3, h4, pre {

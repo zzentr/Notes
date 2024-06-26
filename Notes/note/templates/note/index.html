@@ -15,6 +15,7 @@
 <body>
     <header>
         <div class="name_of_site">
+            <img src="{% static 'note/img/favicon.ico' %}" id="logo_site">
             zentrNotes
         </div>
         <form id="logout" method="post" action="/users/logout/">
@@ -72,10 +73,19 @@
         <div id="add_note" title="Создать заметку">Новая заметка</div>
         <hr id="line_under_adding_note">
         <div id="edit_menu">
-            <span class="button_edit_menu" id="rename_folder">Переименовать</span>
-            <span class="button_edit_menu" id="add_subfolder">Новая папка</span>
+            <span class="button_edit_menu" id="rename_folder">
+                <img id='img_rename_folder' src="{% static "note/img/pencil.png" %}" style="width: 17px;height: auto;">
+                Переименовать
+            </span>
+            <span class="button_edit_menu" id="add_subfolder">
+                <img id='img_add_folder' src="{% static "note/img/folder_add.png" %}" style="width: 18px;height: auto;">
+                   Новая папка
+            </span>
             <hr id="line_edit_menu">
-            <span class="button_edit_menu" id="delete_folder">Удалить папку</span>
+            <span class="button_edit_menu" id="delete_folder">
+                <img id='img_deleted_notes' src="{% static "note/img/trash_red.png" %}" style="width: 17px;height: auto;">
+                Удалить папку
+            </span>
         </div>
     </aside>
 
