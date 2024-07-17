@@ -18,6 +18,20 @@ header {
     justify-content: space-between;
 }
 
+#site_content {
+    display: none;
+}
+
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: 9999;
+}
+
 #logo_site {
     width: 50px;
     height: auto
@@ -72,7 +86,7 @@ aside {
     padding-right: 100px;
     padding-top: 7px;
     padding-bottom: 7px;
-    margin-left: 10px;  
+    margin-left: 10px;
     margin-right: 10px;
     transform: translateY(15px);
     border-radius: 8px;
@@ -88,13 +102,13 @@ aside {
 }
 
 .folder_img {
-    width: 20px;    
+    width: 20px;
     height: auto;
     margin-right: 10px;
 }
 
 .arrow_img {
-    width: 6px;    
+    width: 6px;
     height: auto;
     padding: 4px 6px 3px 6px;
     visibility: hidden;
@@ -134,7 +148,7 @@ aside {
 }
 
 #line_under_adding_folder {
-    background-color: #f5f6f7; 
+    background-color: #f5f6f7;
     position: absolute;
     border: 0;
     top: 94.8vh;
@@ -160,8 +174,8 @@ aside {
     border: 1px solid #d9dadb;
     user-select: none;
     visibility: hidden;
-    box-shadow: 0 -6px 5px rgba(0, 0, 0, 0.1), 
-                0 6px 5px rgba(0, 0, 0, 0.1), 
+    box-shadow: 0 -6px 5px rgba(0, 0, 0, 0.1),
+                0 6px 5px rgba(0, 0, 0, 0.1),
                 6px 0 5px rgba(0, 0, 0, 0.1),
                 -6px 0 5px rgba(0, 0, 0, 0.1);
 }
@@ -199,7 +213,7 @@ aside {
     margin-bottom: 0px;
     margin-left: 15px;
     margin-right: 15px;
-}   
+}
 
 #notes_menu {
     font-size: 18px;
@@ -216,7 +230,7 @@ aside {
     overflow-y: auto;
 }
 
-#search { 
+#search {
     font-family: "Rubik", sans-serif;
     box-sizing: border-box;
     font-size: 16px;
@@ -230,9 +244,9 @@ aside {
     text-indent: 5px;
     border-radius: 8px;
     border: 3px solid transparent;
-    outline: none;  
+    outline: none;
     user-select: none;
-    white-space: nowrap; 
+    white-space: nowrap;
 }
 
 .description_note {
@@ -248,7 +262,7 @@ aside {
     outline: none;
     align-items: center;
     user-select: none;
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
     display: none;
 }
@@ -290,7 +304,7 @@ aside {
 }
 
 #img_deleted_notes {
-    width: 20px;    
+    width: 20px;
     height: auto;
     margin-right: 10px;
 }
@@ -302,7 +316,7 @@ aside {
     padding-right: 100px;
     padding-top: 7px;
     padding-bottom: 7px;
-    margin-left: 10px;  
+    margin-left: 10px;
     margin-right: 10px;
     transform: translateY(15px);
     border-radius: 8px;
@@ -338,7 +352,7 @@ aside {
 
 
 #line_under_adding_note {
-    background-color: #f5f6f7; 
+    background-color: #f5f6f7;
     position: absolute;
     border: 0;
     top: 94.8vh;
@@ -350,12 +364,13 @@ aside {
 #head {
     border-top: 0;
     border-left: 0;
-    width: 100%;
-    height: 0.5vh;
-    position: relative;
-    bottom: 916px;
-    left: 552px; 
-    text-align: right; 
+    width: 62%;
+    height: 5vh;
+    position: absolute;
+    top: 37px;
+    left: 552px;
+    text-align: right;
+
 }
 
 #edit_text {
@@ -405,8 +420,8 @@ aside {
     position: absolute;
     top: 85px;
     left: 1075px;
-    box-shadow: 0 -6px 5px rgba(0, 0, 0, 0.1), 
-                0 6px 5px rgba(0, 0, 0, 0.1), 
+    box-shadow: 0 -6px 5px rgba(0, 0, 0, 0.1),
+                0 6px 5px rgba(0, 0, 0, 0.1),
                 6px 0 5px rgba(0, 0, 0, 0.1),
                 -6px 0 5px rgba(0, 0, 0, 0.1);
     display: none;
@@ -454,7 +469,7 @@ h2, h3, h4, pre {
     margin: 0;
     padding: 0;
   }
-  
+
 .img_edit {
     width: 20px;
     height: auto;
@@ -462,7 +477,7 @@ h2, h3, h4, pre {
     border-radius: 8px;
     padding: 5px;
     position: absolute;
-    bottom: 10px;
+    /* bottom: 10px; */
     cursor: pointer;
     user-select: none;
 }
@@ -471,15 +486,17 @@ h2, h3, h4, pre {
     position: absolute;
     right: 0;
     margin-right: 20px;
-    margin-bottom: 5px
+    margin-bottom: 5px;
+    margin-top: 10px;
+
 }
 
 .main_window {
     width: 100%;
     height: 94.6vh;
-    position: relative;
+    position: absolute;
     border: 1px solid #d9dadb;
-    bottom: 917px;
+    top: 90px;
     left: 551px;
     border: 0;
     display: none;
@@ -489,7 +506,7 @@ h2, h3, h4, pre {
     display: block;
 }
 
-.text_input {   
+.text_input {
     font-family: "Rubik", sans-serif;
     font-weight: 300;
     font-size: 17px;
@@ -515,7 +532,7 @@ h2, h3, h4, pre {
     width: 97.7%;
     resize: none;
     overflow: hidden;
-    outline: none; 
+    outline: none;
     line-height: 23px;
     word-spacing: 1px;
     line-height: 1.16;
@@ -524,8 +541,8 @@ h2, h3, h4, pre {
 
 ::selection {
     background-color: rgb(168 208 212);
-    color: black; 
-    line-height: 0; 
+    color: black;
+    line-height: 0;
     font-size: 0.8em;
 }
 

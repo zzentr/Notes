@@ -1,3 +1,9 @@
+window.addEventListener('load', function () {
+    document.querySelector('.preloader').style.display = 'none';
+    document.querySelector('.site-content').style.display = 'block';
+});
+
+
 const userTimezoneOffset = new Date().getTimezoneOffset(); // Получаем часовой пояс пользователя
 const userData = { timezone_offset: userTimezoneOffset };
 
