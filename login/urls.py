@@ -1,6 +1,6 @@
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
-from django.urls import path
+from django.urls import include, path
 from . import views
 
 urlpatterns = [
@@ -10,4 +10,6 @@ urlpatterns = [
     path('registration/', views.registation_user, name='registation'),
     path('confirmation_email/<str:error>/', views.confirmation_email, name='confirmation_email'),
     path('check_code/', views.check_code, name='check_code'),
+    path('', include('social_django.urls', namespace='social')),
+
 ]

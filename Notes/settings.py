@@ -18,7 +18,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['zzentr.pythonanywhere.com', 
                  'www.zzentr.pythonanywhere.com',
-                 '127.0.0.1']
+                 '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -60,12 +60,15 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
             ],
         },
     },
 ]
 
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_VK_OAUTH2_KEY')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_VK_OAUTH2_SECRET')
 
 WSGI_APPLICATION = 'Notes.wsgi.application'
 
@@ -85,7 +88,6 @@ DATABASES = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )

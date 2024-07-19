@@ -8,6 +8,7 @@
     <form method="post">
         {% csrf_token %}
         <div class="form-error">{{ form.non_field_errors }}</div>
+        <a href="{% url "social:begin" "vk-oauth2" %}">Вконтакте</a>
         {% for f in form %}
             {{ f }}
             {{ f.errors }}
